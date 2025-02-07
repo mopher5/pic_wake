@@ -1,12 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import JSZip from 'jszip';
-import ImageViewer from './components/ImageViewer';
 import ControlPanel from './components/ControlPanel';
 import FileHandler from './components/FileHandler';
 "use client";
-import React from "react";
-
-// import { useUpload } from "../utilities/runtime-helpers";
 
 type Category = 'good' | 'normal' | 'bad';
 
@@ -15,90 +11,10 @@ interface ClassifiedImage {
   category: Category;
 }
 
-
-
 function App() {
-  // const [images, setImages] = useState([]);
-  // const [currentIndex, setCurrentIndex] = useState(0);
-  // const [categorizedImages, setCategorizedImages] = useState({
-  //   good: [],
-  //   normal: [],
-  //   bad: [],
-  // });
-  // const [history, setHistory] = useState([]);
-  // const [upload, { loading }] = useUpload();
-
-  // const handleFileUpload = async (e) => {
-  //   const files = Array.from(e.target.files);
-  //   const uploadedImages = [];
-
-  //   for (const file of files) {
-  //     const { url, error } = await upload({ file });
-  //     if (!error) {
-  //       uploadedImages.push({ url, category: null });
-  //     }
-  //   }
-
-  //   setImages(uploadedImages);
-  // };
-
-  // const categorizeImage = (category) => {
-  //   if (currentIndex >= images.length) return;
-
-  //   const newImages = [...images];
-  //   const oldCategory = newImages[currentIndex].category;
-  //   newImages[currentIndex].category = category;
-
-  //   setHistory([...history, { index: currentIndex, oldCategory }]);
-  //   setImages(newImages);
-
-  //   const newCategorized = {
-  //     good: newImages.filter((img) => img.category === "good"),
-  //     normal: newImages.filter((img) => img.category === "normal"),
-  //     bad: newImages.filter((img) => img.category === "bad"),
-  //   };
-  //   setCategorizedImages(newCategorized);
-
-  //   if (currentIndex < images.length - 1) {
-  //     setCurrentIndex(currentIndex + 1);
-  //   }
-  // };
-
-  // const undoLastAction = () => {
-  //   if (history.length === 0) return;
-
-  //   const lastAction = history[history.length - 1];
-  //   const newImages = [...images];
-  //   newImages[lastAction.index].category = lastAction.oldCategory;
-
-  //   setImages(newImages);
-  //   setHistory(history.slice(0, -1));
-  //   setCurrentIndex(lastAction.index);
-
-  //   const newCategorized = {
-  //     good: newImages.filter((img) => img.category === "good"),
-  //     normal: newImages.filter((img) => img.category === "normal"),
-  //     bad: newImages.filter((img) => img.category === "bad"),
-  //   };
-  //   setCategorizedImages(newCategorized);
-  // };
-
-  // useEffect(() => {
-  //   const handleKeyPress = (e) => {
-  //     if (e.key.toLowerCase() === "g") categorizeImage("good");
-  //     if (e.key.toLowerCase() === "n") categorizeImage("normal");
-  //     if (e.key.toLowerCase() === "b") categorizeImage("bad");
-  //   };
-
-  //   window.addEventListener("keydown", handleKeyPress);
-  //   return () => window.removeEventListener("keydown", handleKeyPress);
-  // }, [currentIndex, images]);
-
   const [images, setImages] = useState<File[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [classifiedImages, setClassifiedImages] = useState<ClassifiedImage[]>([]);
-  const [zoom, setZoom] = useState(1);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const currentImage = images[currentIndex];
   const currentImageUrl = currentImage ? URL.createObjectURL(currentImage) : null;
@@ -143,32 +59,24 @@ function App() {
     setImages(files);
     setCurrentIndex(0);
     setClassifiedImages([]);
-    setZoom(1);
   };
 
   const handleClassify = (category: Category) => {
     if (!currentImage) return;
 
-    setIsTransitioning(true);
     setTimeout(() => {
       setClassifiedImages(prev => [...prev, { file: currentImage, category }]);
       setCurrentIndex(prev => prev + 1);
-      setZoom(1);
-      setIsTransitioning(false);
     }, 300);
   };
 
   const handleUndo = () => {
     if (classifiedImages.length === 0) return;
-
-    setIsTransitioning(true);
     setTimeout(() => {
       const newClassifiedImages = [...classifiedImages];
       newClassifiedImages.pop();
       setClassifiedImages(newClassifiedImages);
       setCurrentIndex(prev => prev - 1);
-      setZoom(1);
-      setIsTransitioning(false);
     }, 300);
   };
 
@@ -199,9 +107,6 @@ function App() {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }, [classifiedImages]);
-
-  const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.1, 3));
-  const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.1, 0.5));
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
