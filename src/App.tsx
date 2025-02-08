@@ -34,19 +34,17 @@ function App() {
       if (!images.length) return;
 
       switch (e.key.toLowerCase()) {
-        case 'g':
+        case 'a':
           handleClassify('good');
           break;
-        case 'n':
+        case 's':
           handleClassify('normal');
           break;
-        case 'b':
+        case 'd':
           handleClassify('bad');
           break;
-        case 'z':
-          if (e.ctrlKey || e.metaKey) {
-            handleUndo();
-          }
+        case 'w':
+          handleUndo();
           break;
       }
     };
@@ -112,7 +110,7 @@ function App() {
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
         <h1 className="text-3xl font-bold text-center mb-8 font-roboto">
-          画像仕分けツール
+          Pic Wake
         </h1>
 
         <div className="mb-8">
@@ -128,13 +126,13 @@ function App() {
 
         {images.length > 0 && (
           <div className="space-y-6">
-            <div className="relative h-[400px] w-full">
+            <div className="relative h-[800px] w-full">
               {currentIndex < images.length && (
-                <img
-                  src={URL.createObjectURL(images[currentIndex])}
-                  alt={`画像 ${currentIndex + 1}`}
-                  className="w-full h-full object-contain"
-                />
+              <img
+                src={URL.createObjectURL(images[currentIndex])}
+                alt={`画像 ${currentIndex + 1}`}
+                className="w-full h-full object-contain"
+              />
               )}
             </div>
 
@@ -179,7 +177,7 @@ function App() {
               disabled={!(classifiedImages.length > 0)}
               className={`w-full px-4 py-2 rounded text-sm shadow-md transition-all duration-200 transform hover:scale-105 active:scale-95 ${
               (classifiedImages.length > 0)
-                ? 'bg-blue-600 text-white hover:bg-green-700 active:bg-blue-500 hover:shadow-lg'
+                ? 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-500 hover:shadow-lg'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >

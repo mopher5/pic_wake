@@ -17,19 +17,19 @@ const ControlPanel = ({
           onClick={() => onClassify('good')}
           className="px-6 py-3 bg-green-500 text-white rounded hover:bg-green-600"
         >
-          Good (G)
+          Good (A)
         </button>
         <button
           onClick={() => onClassify('normal')}
           className="px-6 py-3 bg-yellow-500 text-white rounded hover:bg-yellow-600"
         >
-          Normal (N)
+          Normal (S)
         </button>
         <button
           onClick={() => onClassify('bad')}
           className="px-6 py-3 bg-red-500 text-white rounded hover:bg-red-600"
         >
-          Bad (B)
+          Bad (D)
         </button>
       </div>
       <br />
@@ -38,7 +38,7 @@ const ControlPanel = ({
         disabled={!canUndo}
         className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
       >
-        やり直し
+        やり直し (W)
       </button>
     </div>
   );
