@@ -186,6 +186,9 @@ function App() {
           </div>
         )}
       </div>
+      <footer className="mt-8 text-center text-gray-500">
+        &copy; {new Date().getFullYear()} <a href="https://github.com/mopher5" >mopher5</a>. All rights reserved.
+      </footer>
     </div>
   );
 }
